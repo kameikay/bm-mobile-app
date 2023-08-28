@@ -11,6 +11,8 @@ import {
   HeaderContainer,
   LoginContainer,
 } from "./styles";
+import { UserIcon } from "@assets/icons/UserIcon";
+import { LockClosedIcon } from "@assets/icons/LockClosedIcon";
 
 export default function LoginScreen() {
   return (
@@ -34,10 +36,11 @@ export default function LoginScreen() {
             label="Usuário"
             placeholder="Digite seu usuário"
             keyboardType="number-pad"
+            icon={UserIcon}
           />
 
           <View style={{ width: "100%", gap: 2 }}>
-            <Input label="Senha" placeholder="********" />
+            <Input label="Senha" placeholder="********" icon={LockClosedIcon} />
             <TouchableOpacity>
               <Text
                 size={12}

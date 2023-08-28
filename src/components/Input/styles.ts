@@ -30,5 +30,5 @@ export const StyledInput = styled(TextInput)<TextInputProps>`
 export const IconContainer = styled.View`
   position: absolute;
   right: 16px;
-  top: 36px;
+  top: 32px;
 `;
