@@ -3,6 +3,7 @@ import { Text } from "@components/Text";
 import { Container, IconContainer, StyledInput } from "./styles";
 import { InputProps } from "./types";
 import { theme } from "@styles/theme/default";
+import { useState } from "react";
 
 export const Input: React.FC<InputProps> = ({
   label,
@@ -12,6 +13,8 @@ export const Input: React.FC<InputProps> = ({
   iconButtonFunction,
   ...props
 }: InputProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <Container>
       <Text size={14} weight="600">
@@ -20,6 +23,17 @@ export const Input: React.FC<InputProps> = ({
       <StyledInput
         error={!!error}
         placeholderTextColor={theme.colors.gray[400]}
+        onFocus={() => {
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+        }}
+        style={{
+          borderColor: isFocused
+            ? theme.colors.primary[400]
+            : theme.colors.neutral[400],
+        }}
         {...register}
         {...props}
       />

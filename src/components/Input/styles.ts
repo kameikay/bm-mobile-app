@@ -15,7 +15,7 @@ export const StyledInput = styled(TextInput)<TextInputProps>`
   margin: 4px 0;
   padding: 10px 16px;
   border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.colors.neutral["300"]};
+  border: 1px solid ${({ theme }) => theme.colors.neutral["400"]};
   background-color: #fff;
   color: ${({ theme }) => theme.colors.neutral["900"]};
 
