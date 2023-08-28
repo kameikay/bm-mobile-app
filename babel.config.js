@@ -7,12 +7,18 @@ module.exports = function (api) {
       [
         "module-resolver",
         {
-          root: ".",
-          extensions: [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".jsx", ".json"],
+          root: ["."],
+          extensions: [".ios.js", ".android.js", ".js", ".ts", ".tsx", ".jsx"],
           alias: {
             "@assets": "./src/assets",
             "@components": "./src/components",
+            "@contexts": "./src/contexts",
+            "@navigation": "./src/navigation",
+            "@schemas": "./src/schemas",
+            "@screens": "./src/screens",
+            "@services": "./src/services",
             "@styles": "./src/styles",
+            "@utils": "./src/utils",
           },
         },
       ],
