@@ -7,6 +7,8 @@ export const Container = styled.View`
 
 interface TextInputProps {
   error?: boolean;
+  isFocused?: boolean;
+  disabled?: boolean;
 }
 
 export const StyledInput = styled(TextInput)<TextInputProps>`
@@ -15,16 +17,24 @@ export const StyledInput = styled(TextInput)<TextInputProps>`
   margin: 4px 0;
   padding: 10px 16px;
   border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.colors.neutral["400"]};
+  border: 1px solid
+    ${({ error, theme, isFocused }) =>
+    error
+      ? theme.colors.red[400]
+      : isFocused
+        ? theme.colors.primary[400]
+        : theme.colors.neutral[300]};
   background-color: #fff;
-  color: ${({ theme }) => theme.colors.neutral["900"]};
+  color: ${({ error, theme }) =>
+    error ? theme.colors.red[500] : theme.colors.neutral[900]};
+  box-shadow: 0px 1px 1px #d4d4d4;
+  elevation: 1;
 
-  ${({ error, theme }) =>
-    error &&
+  ${({ disabled, theme }) =>
+    disabled &&
     `
-      border-color: ${theme.colors.red["400"]};
-      color: ${theme.colors.red["500"]};
-    `}
+    background-color: ${theme.colors.neutral[100]};
+  `}
 `;
 
 export const IconContainer = styled.View`

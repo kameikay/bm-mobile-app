@@ -7,17 +7,18 @@ import { useState } from "react";
 
 export const Input: React.FC<InputProps> = ({
   label,
+  labelWeight = "regular",
   icon: Icon,
   error,
-  register,
   iconButtonFunction,
+  disabled,
   ...props
 }: InputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <Container>
-      <Text size={14} weight="600">
+      <Text size={14} weight={labelWeight === "bold" ? "600" : "400"}>
         {label}
       </Text>
       <StyledInput
@@ -29,21 +30,18 @@ export const Input: React.FC<InputProps> = ({
         onBlur={() => {
           setIsFocused(false);
         }}
-        style={{
-          borderColor: isFocused
-            ? theme.colors.primary[400]
-            : theme.colors.neutral[400],
-        }}
-        {...register}
+        isFocused={isFocused}
+        disabled={disabled}
+        editable={!disabled}
         {...props}
       />
       {Icon &&
         (iconButtonFunction ? (
-          <TouchableOpacity onPress={() => iconButtonFunction()}>
-            <IconContainer>
+          <IconContainer>
+            <TouchableOpacity onPress={() => iconButtonFunction()}>
               <Icon />
-            </IconContainer>
-          </TouchableOpacity>
+            </TouchableOpacity>
+          </IconContainer>
         ) : (
           <IconContainer>
             <Icon />
