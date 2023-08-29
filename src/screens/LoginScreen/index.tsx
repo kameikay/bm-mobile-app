@@ -40,7 +40,7 @@ export default function LoginScreen() {
           />
 
           <View style={{ width: "100%", gap: 2 }}>
-            <Input label="Senha" placeholder="********" icon={LockClosedIcon} />
+            <Input label="Senha" placeholder="********" icon={LockClosedIcon} secureTextEntry />
             <TouchableOpacity>
               <Text
                 size={12}
