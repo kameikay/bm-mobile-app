@@ -21,8 +21,9 @@ export const SelectContainer = styled.TouchableOpacity<ContainerProps>`
   justify-content: space-between;
   flex-direction: row;
   border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.colors.neutral["400"]};
-  background-color: #fff;
+  border: 1px solid ${({ theme }) => theme.colors.neutral["300"]};
+  background-color: ${({ disabled, theme }) =>
+    disabled ? theme.colors.neutral[100] : "#fff"};
   color: ${({ theme }) => theme.colors.neutral["900"]};
 
   ${({ error, theme }) =>

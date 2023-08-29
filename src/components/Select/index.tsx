@@ -16,7 +16,14 @@ import { Separator } from "@components/Separator";
 import { CheckIcon } from "@assets/icons/CheckIcon";
 import { Option } from "@customTypes/Option";
 
-export function Select({ label, options, onChangeSelect, error }: SelectProps) {
+export function Select({
+  label,
+  options,
+  onChangeSelect,
+  error,
+  isLabelBold,
+  disabled,
+}: SelectProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
@@ -34,11 +41,15 @@ export function Select({ label, options, onChangeSelect, error }: SelectProps) {
 
   return (
     <Container>
-      <Text size={14} weight="600">
+      <Text size={14} weight={isLabelBold ? "600" : "400"}>
         {label}
       </Text>
 
-      <SelectContainer error={!!error} onPress={() => setIsModalOpen(true)}>
+      <SelectContainer
+        disabled={disabled}
+        error={!!error}
+        onPress={() => setIsModalOpen(true)}
+      >
         <Text
           color={
             selectedOption ? theme.colors.gray[900] : theme.colors.gray[400]
@@ -57,6 +68,18 @@ export function Select({ label, options, onChangeSelect, error }: SelectProps) {
           width={16}
         />
       </SelectContainer>
+
+      {!!error && (
+        <Text
+          size={10}
+          style={{
+            marginLeft: 2,
+          }}
+          color={theme.colors.red[500]}
+        >
+          {error}
+        </Text>
+      )}
 
       <Modal
         animationType="slide"
