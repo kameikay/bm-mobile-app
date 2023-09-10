@@ -7,4 +7,5 @@ export interface SelectProps {
   onChangeSelect: (value: string) => void;
   error?: string;
   disabled?: boolean;
+  value?: string;
 }

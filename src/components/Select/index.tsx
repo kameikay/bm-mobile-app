@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, Modal, Platform } from "react-native";
 import { ChevronDownIcon } from "@assets/icons/ChevronDownIcon";
 import { XMarkIcon } from "@assets/icons/XMarkIcon";
@@ -23,6 +23,7 @@ export function Select({
   error,
   isLabelBold,
   disabled,
+  value,
 }: SelectProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
@@ -38,6 +39,14 @@ export function Select({
 
     return selectedOption.value === option.value;
   }
+
+  useEffect(() => {
+    const option = options.find((option) => option.value === value);
+    if (option) {
+      setSelectedOption(option);
+      onChangeSelect(option.value);
+    }
+  }, [value]);
 
   return (
     <Container>
