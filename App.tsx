@@ -1,9 +1,13 @@
 import { useFonts } from "expo-font";
 import { StatusBar } from "expo-status-bar";
-import { View } from "react-native";
-import { Text } from "@components/Text";
 import { ThemeProvider } from "styled-components/native";
+import { QueryClient, QueryClientProvider } from "react-query";
+import Toast from "react-native-toast-message";
+import AuthProvider from "@contexts/AuthContext";
 import { theme } from "@styles/theme/default";
+import AppNav from "@navigation/AppNav";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [isFontsLoaded] = useFonts({
@@ -20,10 +24,14 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <View>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <StatusBar style="light" />
-      </View>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <AppNav />
+        </AuthProvider>
+
+        <StatusBar style="auto" />
+        <Toast />
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }
