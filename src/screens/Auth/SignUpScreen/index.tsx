@@ -3,6 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import { AuthStackTypes } from "@navigation/AuthStack";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Toast from "react-native-toast-message";
 import { Text } from "@components/Text";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
@@ -61,10 +62,11 @@ export default function SignUpScreen() {
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.data.message === "cpf already used") {
-          // toast({
-          //   text: "CPF já cadastrado.",
-          //   type: TOAST_TYPE.ERROR,
-          // });
+          Toast.show({
+            type: "error",
+            text1: "Oops!",
+            text2: "CPF já cadastrado.",
+          });
           setError("user.cpf", {
             type: "manual",
             message: "CPF já cadastrado.",
@@ -73,10 +75,11 @@ export default function SignUpScreen() {
         }
 
         if (error.response.data.message === "e-mail already used") {
-          // toast({
-          //   text: "E-mail já cadastrado.",
-          //   type: TOAST_TYPE.ERROR,
-          // });
+          Toast.show({
+            type: "error",
+            text1: "Oops!",
+            text2: "E-mail já cadastrado.",
+          });
           setError("contact.email", {
             type: "manual",
             message: "E-mail já cadastrado.",
@@ -84,10 +87,11 @@ export default function SignUpScreen() {
           return;
         }
 
-        // toast({
-        //   text: error.message,
-        //   type: TOAST_TYPE.ERROR,
-        // });
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "Erro desconhecido.",
+        });
       } else {
         console.log("Erro desconhecido", error);
       }
@@ -119,10 +123,11 @@ export default function SignUpScreen() {
       });
     } catch (error) {
       console.log(error);
-      // toast({
-      //   type: TOAST_TYPE.ERROR,
-      //   text: "CEP não encontrado",
-      // });
+      Toast.show({
+        type: "error",
+        text1: "Oops!",
+        text2: "CEP não encontrado.",
+      });
     } finally {
       setIsLoading(false);
     }
