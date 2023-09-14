@@ -1,8 +1,8 @@
+import { useContext } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import AuthStack from "./AuthStack";
-import { useContext } from "react";
 import { AuthContext } from "@contexts/AuthContext";
-import { ActivityIndicator, View } from "react-native";
 import { theme } from "@styles/theme/default";
 import AppStack from "./AppStack";
 

@@ -36,7 +36,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     storage.delete("9sgbi.access_token");
   }
 
-  async function isLoggedIn() {
+  function isLoggedIn() {
     setIsLoading(true);
 
     const accessToken = storage.getString("9sgbi.access_token");
