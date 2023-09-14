@@ -17,13 +17,13 @@ export default function HomeScreen() {
   if (isLoading) {
     return (
       <Container>
-        <ActivityIndicator size="large" color={theme.colors.primary[400]} />;
+        <ActivityIndicator size="large" color={theme.colors.primary[400]} />
       </Container>
     );
   }
 
   useEffect(() => {
-    if (data) {
+    if (data && data.data) {
       setMe(data.data.data);
     }
   }, [data]);
