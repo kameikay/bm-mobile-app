@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Platform, ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { AxiosError } from "axios";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import Toast from "react-native-toast-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Text } from "@components/Text";
@@ -32,7 +32,8 @@ import { useSelfDataStore } from "src/store/useSelfData";
 import { cpfMask } from "@utils/cpfMask";
 
 export default function SignUpScreen() {
-  const { selfData, setMe } = useSelfDataStore();
+  const queryClient = useQueryClient();
+  const { selfData } = useSelfDataStore();
   const mutation = useMutation({
     mutationFn: (data: EditPersonalDataFormType) =>
       UserService.editPersonalData(data),
@@ -67,17 +68,7 @@ export default function SignUpScreen() {
         text1: "Sucesso!",
         text2: "Dados atualizados.",
       });
-
-      try {
-        const personalDataResponse = await UserService.getPersonalData();
-        setMe(personalDataResponse.data.data);
-      } catch (error) {
-        Toast.show({
-          type: "error",
-          text1: "Oops!",
-          text2: "Erro ao atualizar dados.",
-        });
-      }
+      queryClient.invalidateQueries({ queryKey: ["selfData"] });
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.data.message === "e-mail already used") {

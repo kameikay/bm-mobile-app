@@ -8,6 +8,11 @@ import { InboxStackIcon } from "@assets/icons/InboxStackIcon";
 import { Cog6ToothIcon } from "@assets/icons/Cog6ToothIcon";
 import { theme } from "@styles/theme/default";
 import ConfigStack from "./ConfigsStack";
+import { useQuery } from "react-query";
+import { ActivityIndicator, View } from "react-native";
+import { useEffect } from "react";
+import UserService from "@services/UserService";
+import { useSelfDataStore } from "src/store/useSelfData";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +40,35 @@ const menu = [
 ];
 
 export default function AppStack() {
+  const { data, isLoading } = useQuery("selfData", () =>
+    UserService.getPersonalData()
+  );
+  const { setMe } = useSelfDataStore();
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.colors.primary[400]} />
+      </View>
+    );
+  }
+
+  useEffect(() => {
+    if (data && data.data) {
+      setMe(data.data.data);
+    }
+
+    return () => {
+      setMe(null);
+    };
+  }, [data]);
+
   return (
     <Tab.Navigator
       screenOptions={{
