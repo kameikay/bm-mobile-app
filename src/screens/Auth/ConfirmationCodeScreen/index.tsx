@@ -1,32 +1,33 @@
+import { useState } from "react";
 import { Platform, ScrollView } from "react-native";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigation } from "@react-navigation/native";
-import { AuthStackTypes } from "@navigation/AuthStack";
+import { AxiosError } from "axios";
+import Toast from "react-native-toast-message";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthStackParamList } from "@navigation/AuthStack";
 import { Text } from "@components/Text";
 import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 import { theme } from "@styles/theme/default";
 import {
   ButtonsContainer,
+  ConfirmationCodeContainer,
   Container,
   FormContainer,
   HeaderContainer,
-  SignUpContainer,
 } from "./styles";
-import { useContext, useState } from "react";
 import AuthService from "@services/AuthService";
-import { AxiosError } from "axios";
 import {
   ValidadeAccountType,
   validadeAccountFormSchema,
 } from "@schemas/auth/validadeAccount";
-import { AuthContext } from "@contexts/AuthContext";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-export default function SignUpScreen() {
-  const navigation = useNavigation<AuthStackTypes>();
+export default function ConfirmationCode({
+  navigation,
+  route,
+}: NativeStackScreenProps<AuthStackParamList, "ConfirmationCode">) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     handleSubmit,
@@ -34,50 +35,53 @@ export default function SignUpScreen() {
     formState: { errors },
   } = useForm<ValidadeAccountType>({
     resolver: zodResolver(validadeAccountFormSchema),
+    defaultValues: {
+      code_confirmation: "" as unknown as never,
+    },
   });
 
   async function validate(data: ValidadeAccountType) {
     setIsSubmitting(true);
     try {
-      if (!email) {
-        toast({
-          text: "E-mail não encontrado",
-          type: TOAST_TYPE.ERROR,
+      if (!route.params?.email) {
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "E-mail não encontrado.",
         });
         return;
       }
 
       const response = await AuthService.confirmAccount(
         data.code_confirmation,
-        email
+        route.params?.email
       );
 
       if (response.data.success) {
-        toast({
-          text: "Conta ativada com sucesso",
-          type: TOAST_TYPE.SUCCESS,
+        Toast.show({
+          type: "success",
+          text1: "Sucesso!",
+          text2: "Conta ativada com sucesso.",
         });
-        router.push("/signup/success");
+
+        navigation.navigate("Login");
       }
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.data.message === "wrong code provided") {
-          toast({
-            text: "Código inválido",
-            type: TOAST_TYPE.ERROR,
+          Toast.show({
+            type: "error",
+            text1: "Oops!",
+            text2: "Código inválido.",
           });
           return;
         }
-
-        toast({
-          text: error.response.data.message,
-          type: TOAST_TYPE.ERROR,
-        });
       } else {
         console.log("Erro desconhecido", error);
-        toast({
-          text: "Erro desconhecido",
-          type: TOAST_TYPE.ERROR,
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "Erro desconhecido.",
         });
       }
     } finally {
@@ -86,36 +90,47 @@ export default function SignUpScreen() {
   }
 
   async function resendEmail() {
+    setIsSubmitting(true);
     try {
-      if (!email) {
-        toast({
-          text: "E-mail não encontrado",
-          type: TOAST_TYPE.ERROR,
+      if (!route.params?.email) {
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "E-mail não encontrado.",
         });
         return;
       }
 
-      await AuthService.resendEmail(email);
+      await AuthService.resendEmail(route.params?.email);
 
-      // toast({
-      //   text: "E-mail de confirmação enviado",
-      //   type: TOAST_TYPE.INFO,
-      // });
+      Toast.show({
+        type: "success",
+        text1: "Sucesso!",
+        text2: "E-mail de confirmação enviado.",
+      });
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
-        // toast({
-        //   text: error.response.data.message,
-        //   type: TOAST_TYPE.ERROR,
-        // });
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: error.response.data.message,
+        });
       } else {
         console.log("Erro desconhecido", error);
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "Erro desconhecido.",
+        });
       }
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
   return (
     <Container>
-      <SignUpContainer
+      <ConfirmationCodeContainer
         behavior={Platform.OS === "android" ? "height" : "padding"}
       >
         <ScrollView
@@ -166,7 +181,7 @@ export default function SignUpScreen() {
                   onChangeText={onChange}
                   error={errors.code_confirmation?.message}
                   keyboardType="number-pad"
-                  value={value}
+                  value={String(value) || ""}
                 />
               )}
             />
@@ -184,15 +199,12 @@ export default function SignUpScreen() {
           </FormContainer>
 
           <ButtonsContainer>
-            <Button
-              onPress={handleSubmit(validate)}
-              disabled={isLoading || isSubmitting}
-            >
-              Cadastrar
+            <Button onPress={handleSubmit(validate)} disabled={isSubmitting}>
+              Validar
             </Button>
           </ButtonsContainer>
         </ScrollView>
-      </SignUpContainer>
+      </ConfirmationCodeContainer>
     </Container>
   );
 }
