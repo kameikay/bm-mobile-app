@@ -7,10 +7,11 @@ export const Container = styled.SafeAreaView`
   background-color: ${({ theme }) => theme.colors.neutral[50]};
 `;
 
-export const ExitContainer = styled.KeyboardAvoidingView`
+export const ExitContainer = styled.View`
   padding: 24px;
   width: 100%;
   align-items: center;
   justify-content: center;
   height: 100%;
+  gap: 24px;
 `;
