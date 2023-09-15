@@ -1,9 +1,16 @@
 import { useContext, useState } from "react";
-import { Image, Platform, TouchableOpacity, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { AuthStackTypes } from "@navigation/AuthStack";
+import {
+  ActivityIndicator,
+  Image,
+  Platform,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AxiosError } from "axios";
 import Toast from "react-native-toast-message";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { LockClosedIcon } from "@assets/icons/LockClosedIcon";
 import { UserIcon } from "@assets/icons/UserIcon";
@@ -23,13 +30,13 @@ import {
   LoginContainer,
 } from "./styles";
 import { AuthContext } from "@contexts/AuthContext";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthStackParamList } from "@navigation/AuthStack";
 
-export default function LoginScreen() {
-  const { isLoading, setIsLoading, setAccessToken, setRefreshToken } =
-    useContext(AuthContext);
-  const navigation = useNavigation<AuthStackTypes>();
+export default function LoginScreen({
+  navigation,
+}: NativeStackScreenProps<AuthStackParamList, "Login">) {
+  const { setAccessToken, setRefreshToken } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [cpf, setCpf] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -54,6 +61,11 @@ export default function LoginScreen() {
         storage.set("9sgbi.refresh_token", data.data.refresh_token);
         setAccessToken(data.data.access_token);
         setRefreshToken(data.data.refresh_token);
+        Toast.show({
+          type: "success",
+          text1: "Bem-vindo(a)!",
+          text2: "9º SGBI - Sistema.",
+        });
       }
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
@@ -64,41 +76,56 @@ export default function LoginScreen() {
         ) {
           Toast.show({
             type: "error",
-            text1: "Ops!",
+            text1: "Oops!",
             text2: "Usuário ou senha incorretos.",
           });
-          return;
         }
+
         if (error.response.data.message === "user not authorized by admin") {
           Toast.show({
             type: "error",
-            text1: "Ops!",
+            text1: "Oops!",
             text2: "Usuário não autorizado pelo administrador.",
           });
-          return;
         }
 
         if (error.response.data.message === "e-mail not validated") {
           const { data } = error.response.data;
-          navigation.navigate("ConfirmationCode", { email: data.email });
+          navigation.navigate("ConfirmationCode", {
+            email: data.email,
+          });
+
           Toast.show({
             type: "info",
-            text1: "Ops!",
+            text1: "Oops!",
             text2: "E-mail não validado.",
           });
-          return;
         }
       } else {
+        console.log(error);
         Toast.show({
           type: "error",
-          text1: "Ops!",
-
+          text1: "Oops!",
           text2: "Erro desconhecido.",
         });
       }
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.colors.primary[400]} />
+      </View>
+    );
   }
 
   return (
@@ -152,6 +179,7 @@ export default function LoginScreen() {
                     onChange(text);
                   }}
                   value={password}
+                  error={errors.password?.message}
                 />
               )}
             />
