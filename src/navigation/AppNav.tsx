@@ -9,23 +9,25 @@ import AppStack from "./AppStack";
 export default function AppNav() {
   const { isLoading, accessToken } = useContext(AuthContext);
 
-  if (isLoading) {
-    return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <ActivityIndicator size="large" color={theme.colors.primary[400]} />
-      </View>
-    );
-  }
-
   return (
     <NavigationContainer>
-      {accessToken ? <AppStack /> : <AuthStack />}
+      {accessToken ? (
+        isLoading ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator size="large" color={theme.colors.primary[400]} />
+          </View>
+        ) : (
+          <AppStack />
+        )
+      ) : (
+        <AuthStack />
+      )}
     </NavigationContainer>
   );
 }
