@@ -45,6 +45,16 @@ export default function AppStack() {
   );
   const { setMe } = useSelfDataStore();
 
+  useEffect(() => {
+    if (data && data.data) {
+      setMe(data.data.data);
+    }
+
+    return () => {
+      setMe(null);
+    };
+  }, [data]);
+
   if (isLoading) {
     return (
       <View
@@ -58,16 +68,6 @@ export default function AppStack() {
       </View>
     );
   }
-
-  useEffect(() => {
-    if (data && data.data) {
-      setMe(data.data.data);
-    }
-
-    return () => {
-      setMe(null);
-    };
-  }, [data]);
 
   return (
     <Tab.Navigator

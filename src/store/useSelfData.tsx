@@ -2,11 +2,11 @@ import { Me } from "@services/UserService/types";
 import { create } from "zustand";
 
 type State = {
-  selfData: Me;
+  selfData: Me | null;
 };
 
 type Actions = {
-  setMe: (selfData: Me) => void;
+  setMe: (selfData: Me | null) => void;
 };
 
 export const useSelfDataStore = create<State & Actions>((set) => ({
