@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
   background-color: ${({ theme }) => theme.colors.neutral[50]};
 `;
 
-export const SignUpContainer = styled.KeyboardAvoidingView`
+export const ConfirmationCodeContainer = styled.KeyboardAvoidingView`
   padding: 24px;
   width: 100%;
   align-items: center;

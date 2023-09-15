@@ -108,7 +108,6 @@ export default function SignUpScreen() {
         `https://brasilapi.com.br/api/cep/v2/${cepInput}`
       );
       const data = await response.json();
-      console.log(data);
       setValue("address.street", data.street, {
         shouldValidate: true,
       });
@@ -154,7 +153,7 @@ export default function SignUpScreen() {
                 textAlign: "center",
               }}
             >
-              Preencha seus dados para cadatro. Já tem conta? Clique{" "}
+              Preencha seus dados para cadastro. Já tem conta? Clique{" "}
               <Text
                 color={theme.colors.primary[400]}
                 onPress={() => navigation.navigate("Login")}
