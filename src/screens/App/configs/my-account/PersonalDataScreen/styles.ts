@@ -18,7 +18,6 @@ export const PersonalDataContainer = styled.KeyboardAvoidingView`
 export const FormContainer = styled.View`
   gap: 16px;
   width: 100%;
-  margin-top: 48px;
 `;
 
 export const ButtonsContainer = styled.View`
