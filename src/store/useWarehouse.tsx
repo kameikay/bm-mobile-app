@@ -1,4 +1,5 @@
-import { Warehouses } from "@screens/App/b4/ControlScreen/components/types";
+
+import { Warehouse } from "@services/WarehouseService/types";
 import { create } from "zustand";
 
 type State = {
@@ -6,7 +7,7 @@ type State = {
   isShelfModalOpen: boolean;
   shelfNumber?: number | null;
   shelfId: string | null;
-  warehouses: Warehouses[];
+  warehouses: Warehouse[];
 };
 
 type Actions = {
@@ -14,7 +15,7 @@ type Actions = {
   setIsShelfModalOpen: (isShelfModalOpen: boolean) => void;
   setShelfNumber: (shelfNumber: number | null) => void;
   setShelfId: (shelfId: string | null) => void;
-  setWarehouses: (warehouses: Warehouses[]) => void;
+  setWarehouses: (warehouses: Warehouse[]) => void;
 };
 
 export const useWarehouse = create<State & Actions>((set) => ({

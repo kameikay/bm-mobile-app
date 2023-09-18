@@ -1,4 +1,17 @@
-export type GetWarehouseByIdResposne = {
+export type GetWarehousesResponse = {
+  success: boolean;
+  message: string;
+  data: Warehouse[];
+};
+
+export type Warehouse = {
+  id: string;
+  name: string;
+  local: string;
+  updated_at: Date;
+};
+
+export type GetWarehouseByIdResponse = {
   data: WarehouseByIdResponse;
 };
 

@@ -37,6 +37,9 @@ export default function SignUpScreen() {
   const mutation = useMutation({
     mutationFn: (data: EditPersonalDataFormType) =>
       UserService.editPersonalData(data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["selfData"] });
+    },
   });
   const [cpf, setCpf] = useState<string>("");
   const [rg, setRg] = useState<string>("");
@@ -68,7 +71,6 @@ export default function SignUpScreen() {
         text1: "Sucesso!",
         text2: "Dados atualizados.",
       });
-      queryClient.invalidateQueries({ queryKey: ["selfData"] });
     } catch (error) {
       if (error instanceof AxiosError && error.response) {
         if (error.response.data.message === "e-mail already used") {

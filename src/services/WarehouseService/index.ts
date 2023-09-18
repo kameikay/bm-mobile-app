@@ -3,15 +3,20 @@ import httpClient from "../utils/httpClient";
 import {
   CreateShelfResponse,
   CreateWarehouseResponse,
-  GetWarehouseByIdResposne,
+  GetWarehouseByIdResponse,
+  GetWarehousesResponse,
   ShelfResponse,
 } from "./types";
 import { WarehouseFormType } from "@schemas/b4/warehouses";
 
 class WarehouseService {
+  getWarehouses(): Promise<AxiosResponse<GetWarehousesResponse>> {
+    return httpClient.get("/warehouses");
+  }
+
   getWarehouseById(
     id: string
-  ): Promise<AxiosResponse<GetWarehouseByIdResposne>> {
+  ): Promise<AxiosResponse<GetWarehouseByIdResponse>> {
     return httpClient.get(`/warehouses/${id}`);
   }
 
