@@ -40,7 +40,10 @@ export default function ConfigStack() {
         name="MyAccountScreen"
         component={MyAccountScreen}
         options={{
-          headerTitle: "",
+          headerTitle: "Minha conta",
+          headerTitleStyle: {
+            color: theme.colors.primary[900],
+          },
           headerStyle: {
             backgroundColor: theme.colors.gray[50],
           },
