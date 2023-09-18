@@ -5,29 +5,35 @@ import AuthStack from "./AuthStack";
 import { AuthContext } from "@contexts/AuthContext";
 import { theme } from "@styles/theme/default";
 import AppStack from "./AppStack";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function AppNav() {
   const { isLoading, accessToken } = useContext(AuthContext);
 
   return (
-    <NavigationContainer>
-      {accessToken ? (
-        isLoading ? (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <ActivityIndicator size="large" color={theme.colors.primary[400]} />
-          </View>
+    <SafeAreaProvider>
+      <NavigationContainer>
+        {accessToken ? (
+          isLoading ? (
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator
+                size="large"
+                color={theme.colors.primary[400]}
+              />
+            </View>
+          ) : (
+            <AppStack />
+          )
         ) : (
-          <AppStack />
-        )
-      ) : (
-        <AuthStack />
-      )}
-    </NavigationContainer>
+          <AuthStack />
+        )}
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
