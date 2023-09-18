@@ -1,18 +1,19 @@
-import { HomeIcon } from "@assets/icons/HomeIcon";
+import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { useQuery } from "react-query";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+import { HomeIcon } from "@assets/icons/HomeIcon";
 import HomeScreen from "@screens/App/home";
 import PeopleScreen from "@screens/App/people";
-import B4Screen from "@screens/App/b4";
+import B4MenuTop from "@navigation/B4MenuTop";
 import { UsersIcon } from "@assets/icons/UsersIcon";
 import { InboxStackIcon } from "@assets/icons/InboxStackIcon";
 import { Cog6ToothIcon } from "@assets/icons/Cog6ToothIcon";
 import { theme } from "@styles/theme/default";
 import ConfigStack from "./ConfigsStack";
-import { useQuery } from "react-query";
-import { ActivityIndicator, View } from "react-native";
-import { useEffect } from "react";
 import UserService from "@services/UserService";
-import { useSelfDataStore } from "src/store/useSelfData";
+import { useSelfDataStore } from "@store/useSelfData";
 
 const Tab = createBottomTabNavigator();
 
@@ -30,7 +31,7 @@ const menu = [
   {
     name: "Logística",
     icon: InboxStackIcon,
-    component: B4Screen,
+    component: B4MenuTop,
   },
   {
     name: "Configurações",
