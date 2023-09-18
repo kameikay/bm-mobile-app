@@ -27,8 +27,6 @@ export const StyledInput = styled(TextInput)<TextInputProps>`
   background-color: #fff;
   color: ${({ error, theme }) =>
     error ? theme.colors.red[500] : theme.colors.neutral[900]};
-  box-shadow: 0px 1px 1px #d4d4d4;
-  elevation: 1;
 
   ${({ disabled, theme }) =>
     disabled &&
