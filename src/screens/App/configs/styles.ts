@@ -7,6 +7,14 @@ export const Container = styled.SafeAreaView`
   padding-top: 16px;
 `;
 
+export const HeaderContainer = styled.View`
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px 0;
+`;
+
 export const TextListContainer = styled.TouchableOpacity`
   width: 100%;
   padding: 16px 8px;

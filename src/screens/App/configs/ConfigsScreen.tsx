@@ -1,17 +1,24 @@
 import { FlatList, View } from "react-native";
-import { Container, TextListContainer } from "./styles";
+import { Container, HeaderContainer, TextListContainer } from "./styles";
 import { Text } from "@components/Text";
 import { ConfigStackTypes } from "@navigation/ConfigsStack";
 import { useNavigation } from "@react-navigation/native";
 import { Separator } from "@components/Separator";
 import { theme } from "@styles/theme/default";
 import { ChevronRightIcon } from "@assets/icons/ChevronRightIcon";
+import { Cog6ToothIcon } from "@assets/icons/Cog6ToothIcon";
 
 export default function ConfigsScreen() {
   const navigation = useNavigation<ConfigStackTypes>();
 
   return (
     <Container>
+      <HeaderContainer>
+        <Cog6ToothIcon />
+        <Text weight="600" size={20}>
+          Configurações
+        </Text>
+      </HeaderContainer>
       <FlatList
         data={[
           {
