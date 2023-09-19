@@ -3,6 +3,7 @@ import {
   createMaterialTopTabNavigator,
 } from "@react-navigation/material-top-tabs";
 import ControlScreen from "@screens/App/b4/ControlScreen";
+import ItemsScreen from "@screens/App/b4/ItemsScreen";
 import { theme } from "@styles/theme/default";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -21,7 +22,7 @@ const menu = [
   },
   {
     name: "Itens",
-    component: ControlScreen,
+    component: ItemsScreen,
   },
   {
     name: "Entrada",
