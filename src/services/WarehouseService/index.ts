@@ -11,7 +11,7 @@ import { WarehouseFormType } from "@schemas/b4/warehouses";
 
 class WarehouseService {
   getWarehouses(): Promise<AxiosResponse<GetWarehousesResponse>> {
-    return httpClient.get("/warehouses");
+    return httpClient.get("/warehouses?page=1&limit=999");
   }
 
   getWarehouseById(

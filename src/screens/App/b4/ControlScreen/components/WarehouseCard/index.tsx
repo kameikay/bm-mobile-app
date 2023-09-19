@@ -28,11 +28,11 @@ export default function WarehouseCard({
       <Text weight="600" color={theme.colors.primary[600]}>
         {name}
       </Text>
-      <Text color={theme.colors.gray[400]} style={{ marginTop: 8 }} size={14}>
+      <Text color={theme.colors.gray[500]} style={{ marginTop: 8 }} size={14}>
         <Text size={14}>Localizado em: </Text>
         {location}
       </Text>
-      <Text color={theme.colors.gray[400]} style={{ marginTop: 8 }} size={14}>
+      <Text color={theme.colors.gray[500]} style={{ marginTop: 8 }} size={14}>
         <Text size={14}>Atualizado em:</Text> {updatedAt}
       </Text>
     </CardContainer>
