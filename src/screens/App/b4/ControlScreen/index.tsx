@@ -26,11 +26,15 @@ import dayjs from "@utils/dayjs";
 import { useWarehouse } from "@store/useWarehouse";
 
 export default function ControlScreen() {
+  const { isModalOpen, setIsModalOpen, setWarehouses } = useWarehouse();
   //  TODO: add infinite scroll
   const { data, isLoading } = useQuery(
     "warehouses",
     () => WarehouseService.getWarehouses(),
     {
+      onSuccess: ({ data }) => {
+        setWarehouses(data.data);
+      },
       onError: () => {
         Toast.show({
           type: "error",
@@ -40,7 +44,6 @@ export default function ControlScreen() {
       },
     }
   );
-  const { isModalOpen, setIsModalOpen } = useWarehouse();
   const [search, setSearch] = useState("");
 
   const filteredWarehouses = useMemo(() => {
