@@ -41,12 +41,12 @@ export function Select({
   }
 
   useEffect(() => {
-    const option = options.find((option) => option.value === value);
+    const option = options?.find((option) => option.value === value);
     if (option) {
       setSelectedOption(option);
       onChangeSelect(option.value);
     }
-  }, [value]);
+  }, [value, options]);
 
   return (
     <Container>
