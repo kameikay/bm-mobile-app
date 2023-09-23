@@ -2,11 +2,12 @@ import {
   MaterialTopTabNavigationProp,
   createMaterialTopTabNavigator,
 } from "@react-navigation/material-top-tabs";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ControlScreen from "@screens/App/b4/ControlScreen";
 import ItemInputsScreen from "@screens/App/b4/ItemInputsScreen";
+import ItemOutputsScreen from "@screens/App/b4/ItemOutputsScreen";
 import ItemsScreen from "@screens/App/b4/ItemsScreen";
 import { theme } from "@styles/theme/default";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const B4MenuTopNavigator = createMaterialTopTabNavigator();
 
@@ -31,7 +32,7 @@ const menu = [
   },
   {
     name: "Saída",
-    component: ControlScreen,
+    component: ItemOutputsScreen,
   },
 ];
 
