@@ -100,7 +100,7 @@ export default function ControlScreen() {
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={{
             rowGap: 16,
-            paddingBottom: 32,
+            paddingBottom: Platform.OS === "android" ? 64 : 32,
           }}
           renderItem={({ item }) => (
             <WarehouseCard

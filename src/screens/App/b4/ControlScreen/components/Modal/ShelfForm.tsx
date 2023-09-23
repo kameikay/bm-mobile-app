@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { Text } from "@components/Text";
 import { theme } from "@styles/theme/default";
 import ShelfInput from "../ShelfInput";
@@ -80,7 +81,7 @@ export default function ShelfForm() {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 32,
+          paddingBottom: Platform.OS === "android" ? 64 : 32,
         }}
       >
         <FieldsContainer>

@@ -1,3 +1,11 @@
+import {
+  ActivityIndicator,
+  FlatList,
+  Platform,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Controller } from "react-hook-form";
 import { Text } from "@components/Text";
 import { theme } from "@styles/theme/default";
 import {
@@ -6,15 +14,8 @@ import {
   WarehouseDataContainer,
 } from "./styles";
 import { Input } from "@components/Input";
-import {
-  ActivityIndicator,
-  FlatList,
-  TouchableOpacity,
-  View,
-} from "react-native";
 import ShelfCard from "../ShelfCard";
 import useWarehouseForm from "../../hooks/useWarehouseForm";
-import { Controller } from "react-hook-form";
 import { Button } from "@components/Button";
 import Toast from "react-native-toast-message";
 
@@ -125,7 +126,7 @@ export default function WarehouseForm() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{
               rowGap: 16,
-              paddingBottom: 32,
+              paddingBottom: Platform.OS === "android" ? 64 : 32,
             }}
             renderItem={({ item: shelf }) => (
               <ShelfCard
