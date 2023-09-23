@@ -47,7 +47,6 @@ export default function ItemForm() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <Text
         weight="600"
-        size={20}
         style={{ textTransform: "uppercase" }}
         color={theme.colors.primary[900]}
       >

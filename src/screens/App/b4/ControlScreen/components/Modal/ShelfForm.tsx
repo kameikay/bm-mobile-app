@@ -41,7 +41,6 @@ export default function ShelfForm() {
     <>
       <Text
         weight="600"
-        size={20}
         style={{ textTransform: "uppercase" }}
         color={theme.colors.gray[900]}
       >

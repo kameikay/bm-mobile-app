@@ -52,7 +52,6 @@ export default function ItemInputsForm() {
     <ScrollView showsVerticalScrollIndicator={false}>
       <Text
         weight="600"
-        size={20}
         style={{ textTransform: "uppercase" }}
         color={theme.colors.primary[900]}
       >
@@ -60,7 +59,6 @@ export default function ItemInputsForm() {
         <Text
           color={theme.colors.green[400]}
           weight="600"
-          size={20}
           style={{ textTransform: "uppercase" }}
         >
           entrada

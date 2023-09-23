@@ -61,7 +61,11 @@ export default function ItemsScreen() {
       >
         <HeaderContainer>
           <InboxIcon />
-          <Text weight="600" size={20}>
+          <Text
+            weight="500"
+            color={theme.colors.primary[900]}
+            style={{ textTransform: "uppercase" }}
+          >
             Itens
           </Text>
         </HeaderContainer>

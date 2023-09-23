@@ -65,7 +65,11 @@ export default function ItemInputsScreen() {
       >
         <HeaderContainer>
           <ArrowUpCircle />
-          <Text weight="600" size={20}>
+          <Text
+            weight="500"
+            color={theme.colors.primary[900]}
+            style={{ textTransform: "uppercase" }}
+          >
             Entrada de itens
           </Text>
         </HeaderContainer>
