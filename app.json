@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mobile",
+    "name": "9º SGBI - App",
     "slug": "bm-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -33,6 +33,14 @@
         "projectId": "298d8e3b-31ac-4ed5-a9e6-57d7afa7eb96"
       }
     },
-    "owner": "kameikay"
+    "owner": "kameikay",
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Permitir 9º SGBI - App acessar a câmera."
+        }
+      ]
+    ]
   }
 }
