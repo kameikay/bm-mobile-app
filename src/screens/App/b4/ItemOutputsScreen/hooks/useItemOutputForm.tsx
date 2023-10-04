@@ -26,6 +26,7 @@ export default function useItemOutputForm() {
   const [itemType, setItemType] = useState<string>("");
   const [unit, setUnit] = useState<UNIT_TYPE | string>("");
   const [quantity, setQuantity] = useState<string>("");
+  const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState<boolean>(false);
 
   const {
     setValue,
@@ -101,6 +102,37 @@ export default function useItemOutputForm() {
     {
       onSuccess: ({ data }) => {
         setItems(data.data);
+      },
+      onError: () => {
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "Erro ao buscar dados do item",
+        });
+      },
+    }
+  );
+
+  const { isLoading: isLoadingItemByIdData } = useQuery(
+    ["item", watchItemId],
+    () => ItemService.getItemById(watchItemId!),
+    {
+      enabled: !!watchItemId,
+      onSuccess: ({ data }) => {
+        setItems([
+          {
+            id: data.data.id,
+            description: "",
+            item_type: data.data.item_type,
+            name: data.data.name,
+            unit: data.data.unit,
+          },
+        ]);
+        setUnit(data.data.unit);
+        setValue("item_type", data.data.item_type);
+        setItemType(
+          data.data.item_type === ITEM_TYPE.PERMANENT ? "Permanente" : "Consumo"
+        );
       },
       onError: () => {
         Toast.show({
@@ -193,6 +225,9 @@ export default function useItemOutputForm() {
     watchSelfCaution,
     isLoadingItemInputData,
     isLoadingItemsByNameData,
+    isLoadingItemByIdData,
     getValues,
+    isQRCodeModalOpen,
+    setIsQRCodeModalOpen,
   };
 }

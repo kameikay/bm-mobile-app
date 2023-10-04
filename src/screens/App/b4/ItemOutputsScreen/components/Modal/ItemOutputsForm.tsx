@@ -1,21 +1,28 @@
-import { ActivityIndicator, ScrollView, Switch, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Switch,
+  View,
+} from "react-native";
 import { Controller } from "react-hook-form";
 
 import { Text } from "@components/Text";
-import { theme } from "@styles/theme/default";
-import { ItemButtonContainer, ItemDataContainer } from "./styles";
 import { Input } from "@components/Input";
-
 import { Button } from "@components/Button";
+import QRCodeModal from "@components/QRCodeModal";
 import useItemOutputForm from "../../hooks/useItemOutputForm";
 import currencyMask from "@utils/currencyMask";
 import { ModalSearchBar } from "@components/ModalSearchBar";
+import { theme } from "@styles/theme/default";
+import { ItemButtonContainer, ItemDataContainer } from "./styles";
 
 export default function ItemOutputsForm() {
   const {
     handleSubmit,
     submitItem,
     errors,
+    setValue,
     itemsOptions,
     control,
     itemName,
@@ -27,10 +34,13 @@ export default function ItemOutputsForm() {
     watchSelfCaution,
     isLoadingItemInputData,
     isLoadingItemsByNameData,
+    isLoadingItemByIdData,
     getValues,
+    isQRCodeModalOpen,
+    setIsQRCodeModalOpen,
   } = useItemOutputForm();
 
-  if (isLoadingItemInputData) {
+  if (isLoadingItemInputData || isLoadingItemByIdData) {
     return (
       <View
         style={{
@@ -68,23 +78,33 @@ export default function ItemOutputsForm() {
         {itemOutputId ? (
           <Input label="Item" value={itemName} disabled />
         ) : (
-          <Controller
-            name="item_id"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <ModalSearchBar
-                label="Item"
-                onChangeSelect={onChange}
-                searchText={itemName}
-                setSearchText={setItemName}
-                options={itemsOptions}
-                disabled={!!itemOutputId}
-                error={errors.item_id?.message}
-                value={itemName}
-                isLoading={isLoadingItemsByNameData}
-              />
-            )}
-          />
+          <View>
+            <Controller
+              name="item_id"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <ModalSearchBar
+                  label="Item"
+                  onChangeSelect={onChange}
+                  searchText={itemName}
+                  setSearchText={setItemName}
+                  options={itemsOptions}
+                  disabled={!!itemOutputId}
+                  error={errors.item_id?.message}
+                  value={itemName}
+                  isLoading={isLoadingItemsByNameData}
+                />
+              )}
+            />
+            <Pressable
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => setIsQRCodeModalOpen(true)}
+            >
+              <Text color={theme.colors.primary[500]} size={12}>
+                Escanear código
+              </Text>
+            </Pressable>
+          </View>
         )}
 
         <Controller
@@ -198,6 +218,7 @@ export default function ItemOutputsForm() {
                   false: theme.colors.gray[200],
                   true: theme.colors.primary[500],
                 }}
+                thumbColor="#fff"
                 disabled={!!itemOutputId}
               />
             </View>
@@ -223,6 +244,17 @@ export default function ItemOutputsForm() {
       <ItemButtonContainer>
         <Button onPress={handleSubmit(submitItem)}>Salvar</Button>
       </ItemButtonContainer>
+
+      <QRCodeModal
+        isOpen={isQRCodeModalOpen}
+        onClose={() => setIsQRCodeModalOpen(false)}
+        onScan={(id: string) => {
+          const item = itemsOptions.find((item) => item.value === id);
+          setValue("item_id", id);
+          setItemName(item?.label || "");
+          setIsQRCodeModalOpen(false);
+        }}
+      />
     </ScrollView>
   );
 }
