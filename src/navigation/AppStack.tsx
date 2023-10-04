@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useQuery } from "react-query";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -41,20 +40,16 @@ const menu = [
 ];
 
 export default function AppStack() {
-  const { data, isLoading } = useQuery("selfData", () =>
-    UserService.getPersonalData()
+  const { isLoading } = useQuery(
+    "selfData",
+    () => UserService.getPersonalData(),
+    {
+      onSuccess: ({ data }) => {
+        setMe(data.data);
+      },
+    }
   );
   const { setMe } = useSelfDataStore();
-
-  useEffect(() => {
-    if (data && data.data) {
-      setMe(data.data.data);
-    }
-
-    return () => {
-      setMe(null);
-    };
-  }, [data]);
 
   if (isLoading) {
     return (
