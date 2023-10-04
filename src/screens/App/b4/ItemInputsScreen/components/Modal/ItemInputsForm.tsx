@@ -1,4 +1,4 @@
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
 import { Controller } from "react-hook-form";
 
 import { Text } from "@components/Text";
@@ -13,6 +13,7 @@ import { SOURCE_TYPE_OPTIONS } from "@utils/sourceType";
 import currencyMask from "@utils/currencyMask";
 import formatCurrency from "@utils/formatCurrency";
 import { ModalSearchBar } from "@components/ModalSearchBar";
+import QRCodeModal from "@components/QRCodeModal";
 
 export default function ItemInputsForm() {
   const {
@@ -32,6 +33,9 @@ export default function ItemInputsForm() {
     itemInputId,
     isLoading,
     isLoadingItemsByNameData,
+    isQRCodeModalOpen,
+    setIsQRCodeModalOpen,
+    handleScanQRCode,
   } = useItemInputForm();
 
   if (isLoading) {
@@ -72,23 +76,33 @@ export default function ItemInputsForm() {
         {itemInputId ? (
           <Input label="Item" value={itemName} disabled />
         ) : (
-          <Controller
-            name="item_id"
-            control={control}
-            render={({ field: { onChange } }) => (
-              <ModalSearchBar
-                label="Item"
-                onChangeSelect={onChange}
-                searchText={itemName}
-                setSearchText={setItemName}
-                options={itemsOptions}
-                disabled={!!itemInputId}
-                error={errors.item_id?.message}
-                value={itemName}
-                isLoading={isLoadingItemsByNameData}
-              />
-            )}
-          />
+          <View>
+            <Controller
+              name="item_id"
+              control={control}
+              render={({ field: { onChange } }) => (
+                <ModalSearchBar
+                  label="Item"
+                  onChangeSelect={onChange}
+                  searchText={itemName}
+                  setSearchText={setItemName}
+                  options={itemsOptions}
+                  disabled={!!itemInputId}
+                  error={errors.item_id?.message}
+                  value={itemName}
+                  isLoading={isLoadingItemsByNameData}
+                />
+              )}
+            />
+            <Pressable
+              style={{ alignSelf: "flex-end" }}
+              onPress={() => setIsQRCodeModalOpen(true)}
+            >
+              <Text color={theme.colors.primary[500]} size={12}>
+                Escanear código
+              </Text>
+            </Pressable>
+          </View>
         )}
 
         <Controller
@@ -189,6 +203,12 @@ export default function ItemInputsForm() {
       <ItemButtonContainer>
         <Button onPress={handleSubmit(submitItem)}>Salvar</Button>
       </ItemButtonContainer>
+
+      <QRCodeModal
+        isOpen={isQRCodeModalOpen}
+        onClose={() => setIsQRCodeModalOpen(false)}
+        onScan={handleScanQRCode}
+      />
     </ScrollView>
   );
 }

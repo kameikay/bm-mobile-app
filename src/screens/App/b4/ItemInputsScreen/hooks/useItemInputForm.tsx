@@ -26,6 +26,7 @@ export default function useItemInputForm() {
   const [itemName, setItemName] = useState<string>("");
   const [unitPrice, setUnitPrice] = useState<string>("");
   const [quantity, setQuantity] = useState<string>("");
+  const [isQRCodeModalOpen, setIsQRCodeModalOpen] = useState<boolean>(false);
 
   const {
     setValue,
@@ -33,11 +34,13 @@ export default function useItemInputForm() {
     handleSubmit,
     formState: { errors },
     control,
+    watch,
   } = useForm<ItemInputFormType>({
     resolver: zodResolver(itemInputFormSchema),
   });
 
   const debouncedItemName = useDebounce(itemName, 500);
+  const watchItemId = watch("item_id");
 
   const itemsOptions: Option[] = useMemo(() => {
     if (!items) return [];
@@ -139,6 +142,33 @@ export default function useItemInputForm() {
     }
   );
 
+  const { isLoading: isLoadingItemByIdData } = useQuery(
+    ["item", watchItemId],
+    () => ItemService.getItemById(watchItemId!),
+    {
+      enabled: !!watchItemId,
+      onSuccess: ({ data }) => {
+        setItems([
+          {
+            id: data.data.id,
+            description: "",
+            item_type: data.data.item_type,
+            name: data.data.name,
+            unit: data.data.unit,
+          },
+        ]);
+        setItemName(data.data.name);
+      },
+      onError: () => {
+        Toast.show({
+          type: "error",
+          text1: "Oops!",
+          text2: "Erro ao buscar dados do item",
+        });
+      },
+    }
+  );
+
   async function submitItem(formData: ItemInputFormType) {
     if (!itemInputId) {
       try {
@@ -183,16 +213,24 @@ export default function useItemInputForm() {
     }
   }
 
+  function handleScanQRCode(id: string) {
+    const item = itemsOptions.find((item) => item.value === id);
+    setValue("item_id", id);
+    setItemName(item?.label || "");
+    setIsQRCodeModalOpen(false);
+  }
+
   const isLoading = useMemo(() => {
-    return isLoadingItemInputData || isLoadingSuppliersData;
-  }, [isLoadingItemInputData, isLoadingSuppliersData]);
+    return (
+      isLoadingItemInputData || isLoadingSuppliersData || isLoadingItemByIdData
+    );
+  }, [isLoadingItemInputData, isLoadingSuppliersData, isLoadingItemByIdData]);
 
   return {
     handleSubmit,
     submitItem,
     getValues,
     errors,
-    setValue,
     itemsOptions,
     suppliersOptions,
     unitPrice,
@@ -205,5 +243,8 @@ export default function useItemInputForm() {
     itemInputId,
     isLoading,
     isLoadingItemsByNameData,
+    isQRCodeModalOpen,
+    setIsQRCodeModalOpen,
+    handleScanQRCode,
   };
 }
