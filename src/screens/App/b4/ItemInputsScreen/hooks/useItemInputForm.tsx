@@ -214,9 +214,7 @@ export default function useItemInputForm() {
   }
 
   function handleScanQRCode(id: string) {
-    const item = itemsOptions.find((item) => item.value === id);
     setValue("item_id", id);
-    setItemName(item?.label || "");
     setIsQRCodeModalOpen(false);
   }
 

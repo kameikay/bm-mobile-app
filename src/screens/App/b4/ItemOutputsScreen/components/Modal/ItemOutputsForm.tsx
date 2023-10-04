@@ -22,7 +22,6 @@ export default function ItemOutputsForm() {
     handleSubmit,
     submitItem,
     errors,
-    setValue,
     itemsOptions,
     control,
     itemName,
@@ -38,6 +37,7 @@ export default function ItemOutputsForm() {
     getValues,
     isQRCodeModalOpen,
     setIsQRCodeModalOpen,
+    handleScanQRCode,
   } = useItemOutputForm();
 
   if (isLoadingItemInputData || isLoadingItemByIdData) {
@@ -248,12 +248,7 @@ export default function ItemOutputsForm() {
       <QRCodeModal
         isOpen={isQRCodeModalOpen}
         onClose={() => setIsQRCodeModalOpen(false)}
-        onScan={(id: string) => {
-          const item = itemsOptions.find((item) => item.value === id);
-          setValue("item_id", id);
-          setItemName(item?.label || "");
-          setIsQRCodeModalOpen(false);
-        }}
+        onScan={handleScanQRCode}
       />
     </ScrollView>
   );

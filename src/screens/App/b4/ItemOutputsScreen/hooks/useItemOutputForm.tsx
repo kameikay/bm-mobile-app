@@ -133,6 +133,7 @@ export default function useItemOutputForm() {
         setItemType(
           data.data.item_type === ITEM_TYPE.PERMANENT ? "Permanente" : "Consumo"
         );
+        setItemName(data.data.name);
       },
       onError: () => {
         Toast.show({
@@ -195,6 +196,11 @@ export default function useItemOutputForm() {
     }
   }
 
+  function handleScanQRCode(id: string) {
+    setValue("item_id", id);
+    setIsQRCodeModalOpen(false);
+  }
+
   useEffect(() => {
     if (watchItemId) {
       const selectedItem = items?.find((item) => item.id === watchItemId);
@@ -212,7 +218,6 @@ export default function useItemOutputForm() {
     handleSubmit,
     submitItem,
     errors,
-    setValue,
     itemsOptions,
     unit,
     control,
@@ -229,5 +234,6 @@ export default function useItemOutputForm() {
     getValues,
     isQRCodeModalOpen,
     setIsQRCodeModalOpen,
+    handleScanQRCode,
   };
 }
