@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "9SGBI",
-    "slug": "bm-mobile",
+    "slug": "9SGBI",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,14 +16,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mobile"
+      "bundleIdentifier": "9SGBI"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.mobile"
+      "package": "9SGBI"
     },
     "web": {
       "favicon": "./assets/favicon.png"
